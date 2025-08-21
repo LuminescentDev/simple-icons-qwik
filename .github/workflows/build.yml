@@ -1,0 +1,56 @@
+name: Build and Release on Icon Library Update
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'  # Trigger when dependency is updated
+  pull_request:
+    branches: [main]
+    paths:
+      - 'package.json'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_ENV: production
+
+      - name: Sync version with icon library
+        run: pnpm run sync-version
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add package.json
+          git commit -m "chore: sync version with icon library"
+          git push
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Set publishing config
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+      - name: Publish with np
+        if: github.event_name == 'push'
+        run: pnpm exec np --no-interactive --yolo patch

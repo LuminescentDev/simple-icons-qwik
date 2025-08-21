@@ -1,0 +1,8 @@
+import { IconProps } from '{{TYPES_REL_PATH}}';
+import BaseIcon from '{{BASE_ICON_REL_PATH}}';
+
+export default (props: IconProps) => {
+  return <BaseIcon name="{{ICON_NAME}}" {...props}>
+    {{CONTENT}}
+  </BaseIcon>;
+};
