@@ -23,7 +23,7 @@ function buildIcon() {
 };
 
 function buildExportLine(name: string, iconsRelPath: string) {
-  return `export * from '${iconsRelPath}${name}';\n`;
+  return `export { default as ${name} } from '${iconsRelPath}${name}';\n`;
 }
 
 async function build() {

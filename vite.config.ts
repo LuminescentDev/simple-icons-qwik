@@ -2,7 +2,6 @@ import { qwikVite } from "@qwik.dev/core/optimizer";
 import { qwikRouter } from "@qwik.dev/router/vite";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 const { dependencies = {}, peerDependencies = {} } = pkg as any;
 const makeRegex = (dep) => new RegExp(`^${dep}(/.*)?$`);
@@ -10,6 +9,9 @@ const excludeAll = (obj) => Object.keys(obj).map(makeRegex);
 
 export default defineConfig(() => {
   return {
+    resolve: {
+      tsconfigPaths: true,
+    },
     build: {
       outDir: "lib",
       target: "es2020",
@@ -33,6 +35,6 @@ export default defineConfig(() => {
         ],
       },
     },
-    plugins: [qwikVite(), qwikRouter(), tsconfigPaths({ root: "." })],
+    plugins: [qwikVite(), qwikRouter()],
   };
 });
