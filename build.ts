@@ -51,4 +51,4 @@ async function build() {
   indexFile.close();
 }
 
-build();
+await build();
