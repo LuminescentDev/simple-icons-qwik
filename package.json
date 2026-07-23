@@ -1,7 +1,16 @@
 {
   "name": "simple-icons-qwik",
-  "version": "16.19.0-qwik-v2",
+  "version": "16.27.0-qwik-v2",
+  "private": false,
   "description": "Simple icon library package for Qwik applications",
+  "keywords": [
+    "icon",
+    "icons",
+    "qwik",
+    "simple",
+    "simple-icons"
+  ],
+  "license": "LICENSE",
   "author": {
     "name": "saboooor",
     "url": "https://saboor.ca"
@@ -10,16 +19,12 @@
     "type": "git",
     "url": "https://github.com/saboooor/simple-icons-qwik.git"
   },
-  "license": "LICENSE",
-  "keywords": [
-    "icon",
-    "icons",
-    "simple",
-    "simple-icons",
-    "qwik"
+  "files": [
+    "lib"
   ],
+  "type": "module",
+  "sideEffects": false,
   "main": "./lib/index.qwik.mjs",
-  "qwik": "./lib/index.qwik.mjs",
   "types": "./lib/index.d.ts",
   "exports": {
     ".": {
@@ -27,52 +32,60 @@
       "require": "./lib/index.qwik.cjs",
       "types": "./lib/index.d.ts"
     },
+    "./base-icon": {
+      "import": "./lib/components/base-icon.qwik.mjs",
+      "require": "./lib/components/base-icon.qwik.cjs",
+      "types": "./lib/components/base-icon.d.ts"
+    },
     "./icons/*": {
       "import": "./lib/components/icons/*.qwik.mjs",
       "require": "./lib/components/icons/*.qwik.cjs",
       "types": "./lib/components/icons/*.d.ts"
     }
   },
-  "files": [
-    "lib"
-  ],
-  "engines": {
-    "node": ">=16.8.0 <18.0.0 || >=18.11"
-  },
-  "private": false,
-  "sideEffects": false,
-  "type": "module",
   "scripts": {
-    "build": "pnpm build.icons && qwik build",
+    "build": "bun build.icons && qwik build",
     "build.icons": "bun build.ts",
-    "build.lib": "vite build --mode lib",
+    "build.lib": "vp build --mode lib",
     "build.types": "tsc -p tsconfig.types.json --emitDeclarationOnly --incremental false",
-    "dev": "vite --mode ssr",
+    "dev": "vp dev --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
-    "lint": "eslint \"src/**/*.ts*\"",
+    "lint": "vp lint \"src/**/*.ts*\"",
     "release": "np",
-    "start": "vite --open --mode ssr",
+    "start": "vp dev --open --mode ssr",
     "test": "echo \"No test specified\" && exit 0",
-    "qwik": "qwik"
+    "qwik": "qwik",
+    "prepare": "vp config"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@qwik.dev/core": "2.0.0-beta.35",
-    "@qwik.dev/router": "^2.0.0-beta.35",
-    "@types/eslint": "^9.6.1",
-    "@types/node": "^25.8.0",
-    "eslint": "10.3.0",
-    "eslint-plugin-qwik": "2.0.0-beta.35",
-    "globals": "^17.6.0",
-    "np": "^11.2.1",
-    "simple-icons": "^16.19.0",
-    "typescript": "6.0.3",
-    "typescript-eslint": "^8.59.3",
-    "undici": "8.3.0",
-    "vite": "8.0.13",
+    "@qwik.dev/core": "https://pkg.pr.new/QwikDev/qwik/@qwik.dev/core@8785",
+    "@qwik.dev/router": "https://pkg.pr.new/QwikDev/qwik/@qwik.dev/router@8785",
+    "@types/bun": "*",
+    "globals": "^17.7.0",
+    "np": "^12.0.0",
+    "oxlint-plugin-qwik": "^0.0.9",
+    "simple-icons": "^16.27.0",
+    "typescript": "7.0.2",
+    "undici": "8.8.0",
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.5",
+    "vite-plus": "0.2.5",
     "vite-tsconfig-paths": "^6.1.1",
     "yargs": "^18.0.0"
-  }
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.2.5"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "bun",
+      "version": "1.3.14",
+      "onFail": "download"
+    }
+  },
+  "engines": {
+    "node": ">=16.8.0 <18.0.0 || >=18.11"
+  },
+  "qwik": "./lib/index.qwik.mjs"
 }
